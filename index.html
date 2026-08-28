@@ -729,7 +729,7 @@
 
     .radar-legend {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px 14px;
       padding-top: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -1315,6 +1315,7 @@
       <div class="pay-tabs">
         <button class="pay-tab is-active" data-pay="wechat" type="button">微信收款码</button>
         <button class="pay-tab" data-pay="alipay" type="button">支付宝收款码</button>
+        <button class="pay-tab" data-pay="contact" type="button">微信联系</button>
       </div>
       <div class="pay-qr-box">
         <img id="payQr" src="assets/wechat-pay.jpg" alt="微信收款码">
@@ -1322,7 +1323,7 @@
       <ul class="pay-steps">
         <li id="payStep1">1. 扫码支付 9.9 元。</li>
         <li>2. 保存支付成功截图。</li>
-        <li id="payStep3">3. 点击下方「复制测试数据」，连同截图一起发送到：微信：xxxxx。</li>
+        <li id="payStep3">3. 付款后扫描「微信联系」二维码，把截图和测试数据一起发来。</li>
         <li>4. 报告将在 5 分钟内手动发送给你。</li>
       </ul>
       <button id="payCopyDataBtn" class="primary-btn" type="button">复制测试数据</button>
@@ -2062,7 +2063,7 @@
         payTierTitle.textContent = "立即照见 · " + tier.price;
         payTierDesc.textContent = tier.desc + " · 支付后手动交付";
         payStep1.textContent = "1. 扫码支付 " + tier.amount + " 元。";
-        payStep3.textContent = "3. 点击下方「复制测试数据」，连同截图一起发送到：" + PAYMENT_CONTACT + "。";
+        payStep3.textContent = "3. 付款后扫描「微信联系」二维码，把截图和测试数据一起发来。";
         payModal.classList.add("is-visible");
       }
 
@@ -2086,6 +2087,9 @@
         if (tab.dataset.pay === "alipay") {
           payQr.src = "assets/alipay-pay.jpg";
           payQr.alt = "支付宝收款码";
+        } else if (tab.dataset.pay === "contact") {
+          payQr.src = "assets/wechat-contact.jpg";
+          payQr.alt = "微信联系二维码";
         } else {
           payQr.src = "assets/wechat-pay.jpg";
           payQr.alt = "微信收款码";
