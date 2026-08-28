@@ -76,6 +76,7 @@
     }
 
     .screen {
+      min-height: 100%;
       position: absolute;
       inset: 0;
       display: none;
@@ -84,6 +85,10 @@
       overflow-y: auto;
       overscroll-behavior: contain;
       z-index: 1;
+    }
+
+    .screen > * {
+      flex-shrink: 0;
     }
 
     .screen.is-active {
@@ -783,7 +788,6 @@
     .paywall {
       position: relative;
       padding: 18px 16px;
-      overflow: hidden;
     }
 
     .paywall::before {
