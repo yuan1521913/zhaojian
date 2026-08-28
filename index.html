@@ -870,6 +870,55 @@
       background: var(--gold);
     }
 
+    .tier-list {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .tier-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px 14px;
+      width: 100%;
+      padding: 14px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--text);
+      background: rgba(11, 13, 18, 0.42);
+      text-align: left;
+    }
+
+    .tier-card:active {
+      transform: translateY(1px);
+    }
+
+    .tier-tag {
+      grid-column: 1 / -1;
+      color: var(--gold);
+      font-size: 11px;
+    }
+
+    .tier-card strong {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .tier-card small {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .tier-price {
+      grid-row: 2;
+      color: var(--gold);
+      font-family: "Songti SC", "Noto Serif SC", serif;
+      font-size: 20px;
+    }
+
     .paywall-note {
       margin: 10px 0 0 !important;
       color: var(--muted);
@@ -1222,18 +1271,32 @@
             <p>你刚才看到的只是水面上的倒影。水面之下才是真正的你。</p>
           </div>
         </div>
-        <ul class="paywall-points">
-          <li>五维逐一深度拆解</li>
-          <li>你最大的3个假努力行为</li>
-          <li>14天针对性补救方案</li>
-          <li>上岸倒计时</li>
-        </ul>
-        <button id="unlockBtn" class="primary-btn" type="button">
-          立即照见·¥9.9
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6"></path>
-          </svg>
-        </button>
+        <div class="tier-list">
+          <button id="unlockBtn" class="tier-card" data-tier="report" type="button">
+            <span class="tier-tag">第一层 · 建立信任</span>
+            <strong>完整诊断报告</strong>
+            <span class="tier-price">¥9.9</span>
+            <small>五维逐一拆解 + 3 个假努力行为</small>
+          </button>
+          <button class="tier-card" data-tier="plan14" type="button">
+            <span class="tier-tag">第二层 · 承接怎么办</span>
+            <strong>14 天补救方案</strong>
+            <span class="tier-price">¥19.9</span>
+            <small>14 天行动清单 + 上岸倒计时</small>
+          </button>
+          <button class="tier-card" data-tier="plan21" type="button">
+            <span class="tier-tag">第三层 · 长期陪伴</span>
+            <strong>21 天自渡计划</strong>
+            <span class="tier-price">¥99</span>
+            <small>社群打卡 + 周复盘 + 同伴监督</small>
+          </button>
+          <button class="tier-card" data-tier="oneone" type="button">
+            <span class="tier-tag">第四层 · 深度照见</span>
+            <strong>1 对 1 深度照见</strong>
+            <span class="tier-price">¥299</span>
+            <small>AI 诊断 + 人工解读 + 个人备考陪跑</small>
+          </button>
+        </div>
         <p class="paywall-note">扫码支付 · 截图 + 测试数据一起发送</p>
         <button id="retryBtn" class="ghost-btn" type="button">重新测试</button>
       </div>
@@ -1244,8 +1307,8 @@
     <div class="pay-sheet">
       <div class="pay-sheet-head">
         <div>
-          <h3>立即照见 · ¥9.9</h3>
-          <p>支付后手动交付完整报告</p>
+          <h3 id="payTierTitle">立即照见 · ¥9.9</h3>
+          <p id="payTierDesc">支付后手动交付完整报告</p>
         </div>
         <button id="payCloseBtn" class="pay-close" type="button" aria-label="关闭">×</button>
       </div>
@@ -1257,10 +1320,10 @@
         <img id="payQr" src="assets/wechat-pay.jpg" alt="微信收款码">
       </div>
       <ul class="pay-steps">
-        <li>1. 扫码支付 9.9 元。</li>
+        <li id="payStep1">1. 扫码支付 9.9 元。</li>
         <li>2. 保存支付成功截图。</li>
-        <li>3. 点击下方「复制测试数据」，连同截图一起发送。</li>
-        <li>4. 报告将在 24 小时内手动发送给你。</li>
+        <li id="payStep3">3. 点击下方「复制测试数据」，连同截图一起发送到：微信：xxxxx。</li>
+        <li>4. 报告将在 5 分钟内手动发送给你。</li>
       </ul>
       <button id="payCopyDataBtn" class="primary-btn" type="button">复制测试数据</button>
     </div>
@@ -1276,6 +1339,14 @@
       var DIMENSION_NAMES = ["有效学习时长", "刷题效率", "目标匹配度", "心态稳定性", "方法论清晰度"];
       var DIMENSION_SHORT = ["有效学习", "刷题效率", "目标匹配", "心态稳定", "方法论"];
       var STATS_ENDPOINT = "https://tazhi-2026-d5g1gnvbvb64fcb96-1468762664.ap-shanghai.app.tcloudbase.com/zhaojian-api";
+      var PAYMENT_CONTACT = "微信：xxxxx";
+      var PAY_TIERS = {
+        report: { label: "完整诊断报告", price: "¥9.9", amount: "9.9", desc: "五维逐一拆解 + 3 个假努力行为" },
+        plan14: { label: "14 天补救方案", price: "¥19.9", amount: "19.9", desc: "14 天行动清单 + 上岸倒计时" },
+        plan21: { label: "21 天自渡计划", price: "¥99", amount: "99", desc: "社群打卡 + 周复盘 + 同伴监督" },
+        oneone: { label: "1 对 1 深度照见", price: "¥299", amount: "299", desc: "AI 诊断 + 人工解读 + 个人备考陪跑" }
+      };
+      var currentPayTier = "report";
       var QUESTIONS = [
         {
           dimension: 0,
@@ -1516,6 +1587,10 @@
       var payQr = document.getElementById("payQr");
       var payTabs = document.querySelectorAll(".pay-tab");
       var payCopyDataBtn = document.getElementById("payCopyDataBtn");
+      var payTierTitle = document.getElementById("payTierTitle");
+      var payTierDesc = document.getElementById("payTierDesc");
+      var payStep1 = document.getElementById("payStep1");
+      var payStep3 = document.getElementById("payStep3");
       var shareBtn = document.getElementById("shareBtn");
       var copyDataBtn = document.getElementById("copyDataBtn");
       var questionIndex = document.getElementById("questionIndex");
@@ -1959,7 +2034,7 @@
       function shareResult() {
         var score = calculateScore();
         var copy = getResultCopy(score);
-        var text = "我照见自己 " + score + " 分：" + copy.title + " —— 截图分享，让你的闺蜜也照见自己";
+        var text = "我照见自己 " + score + " 分：" + copy.title + " —— 截图分享，让你的闺蜜也照见自己。先照见，再上岸：https://yuan1521913.github.io/zhaojian/";
         if (navigator.share) {
           navigator.share({ title: "照见 · 上岸自测", text: text }).catch(function (error) {
             if (error && error.name === "AbortError") {
@@ -1981,8 +2056,18 @@
         copyText(JSON.stringify(data), "测试数据已复制");
       }
 
-      function handlePay() {
+      function openPayTier(tierId) {
+        var tier = PAY_TIERS[tierId] || PAY_TIERS.report;
+        currentPayTier = tierId;
+        payTierTitle.textContent = "立即照见 · " + tier.price;
+        payTierDesc.textContent = tier.desc + " · 支付后手动交付";
+        payStep1.textContent = "1. 扫码支付 " + tier.amount + " 元。";
+        payStep3.textContent = "3. 点击下方「复制测试数据」，连同截图一起发送到：" + PAYMENT_CONTACT + "。";
         payModal.classList.add("is-visible");
+      }
+
+      function handlePay() {
+        openPayTier(currentPayTier);
       }
 
       function closePayModal() {
@@ -2007,7 +2092,12 @@
         }
       }
 
-      unlockBtn.addEventListener("click", handlePay);
+      document.querySelector(".paywall").addEventListener("click", function (event) {
+        var card = event.target.closest(".tier-card");
+        if (card) {
+          openPayTier(card.dataset.tier);
+        }
+      });
       payCloseBtn.addEventListener("click", closePayModal);
       payModal.addEventListener("click", function (event) {
         if (event.target === payModal) {
