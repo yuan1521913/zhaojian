@@ -1279,7 +1279,7 @@
             <small>五维逐一拆解 + 3 个假努力行为</small>
           </button>
         </div>
-        <p class="paywall-note">¥9.9 完整报告 · 付款后 5-15 分钟手动交付</p>
+        <p class="paywall-note">¥9.9 完整报告 · 按你的答案生成 · 5-15 分钟交付 · 24小时内不满意可退</p>
         <button id="retryBtn" class="ghost-btn" type="button">重新测试</button>
       </div>
     </section>
@@ -1307,6 +1307,7 @@
         <li>2. 保存支付成功截图。</li>
         <li id="payStep3">3. 付款后扫描「微信联系」二维码，把截图和测试数据一起发来。</li>
         <li>4. 报告将在 5-15 分钟内手动发送给你。</li>
+        <li>5. 报告按你的答案生成；如果觉得是套话，24小时内可申请退款。</li>
       </ul>
       <button id="payCopyDataBtn" class="primary-btn" type="button">复制测试数据</button>
     </div>
@@ -1717,7 +1718,7 @@
         return scores;
       }
 
-      function buildSummary(score) {
+      function buildSummaryLegacy(score) {
         if (score < 40) {
           return [
             "你看起来在学，但有效学习时长、错题闭环和复盘数据之间，可能都没有真正连上。",
@@ -1744,6 +1745,58 @@
           "你要警惕的不是不够努力，而是高分状态带来的过度自信和盲区。",
           "你离目标更近，不是因为你更辛苦，而是因为你更清楚自己在做什么。"
         ];
+      }
+
+      function getConcreteFreeInsights(answerList, dimensionScores) {
+        var insights = [];
+        if (!Array.isArray(answerList) || answerList.length !== 20) {
+          return insights;
+        }
+        var a = answerList;
+        if (a[1] <= 1) {
+          insights.push("你的答案显示：你打开学习资料后，平均不到30分钟就会拿起手机。这不是意志力差，是干扰还没有被设计掉。");
+        }
+        if (a[3] >= 3) {
+          insights.push("你的答案显示：你每天花在看经验帖和学习方法上的时间不少，这正在挤掉真正能产生分数变化的做题与复盘。");
+        }
+        if (a[4] >= 3 && (a[5] <= 1 || a[6] <= 2)) {
+          insights.push("你的答案显示：你的刷题量不低，但错题没有真正进入下一次练习。先停加量，把上一轮错题重做一遍。");
+        }
+        if (a[6] <= 1) {
+          insights.push("你的答案显示：遇到不会的题，你更倾向直接看答案或先跳过。这个动作会让同一个卡点反复出现。");
+        }
+        if (a[12] <= 1) {
+          insights.push("你的答案显示：你每天至少出现一次想放弃的时刻。先别否定它，记录它通常出现在哪类任务后，再设一个恢复动作。");
+        }
+        if (a[17] === 0) {
+          insights.push("你的答案显示：你还没有完整做过一套真题。现在缺的不是更多资料，是第一次完整的真实暴露。");
+        }
+        if (insights.length < 3 && Array.isArray(dimensionScores) && dimensionScores.length === 5) {
+          var weakest = 0;
+          for (var d = 1; d < 5; d += 1) {
+            if (dimensionScores[d] < dimensionScores[weakest]) {
+              weakest = d;
+            }
+          }
+          var weakTexts = [
+            "你的最弱维度是有效学习时长。先从只记录真实有效学习时间开始，再谈加量。",
+            "你的最弱维度是刷题效率。先停止刷更多题，把错题重做和错因归类做起来。",
+            "你的最弱维度是目标匹配度。先把岗位、城市、竞争比和退路写清楚，再定每天学什么。",
+            "你的最弱维度是心态稳定性。先记录最常打断你的情境，而不是逼自己假装稳定。",
+            "你的最弱维度是方法论清晰度。先写清楚明天学什么、怎么检验、学不会怎么办。"
+          ];
+          insights.push(weakTexts[weakest]);
+        }
+        return insights;
+      }
+
+      function buildSummary(score, answerList, dimensionScores) {
+        var concrete = getConcreteFreeInsights(answerList, dimensionScores);
+        var base = buildSummaryLegacy(score);
+        if (concrete.length >= 3) {
+          return concrete.slice(0, 3);
+        }
+        return concrete.concat(base).slice(0, 3);
       }
 
       function getResultCopy(score) {
@@ -1834,7 +1887,7 @@
         resultSubtitle.textContent = resultCopy.subtitle;
 
         summaryList.innerHTML = "";
-        buildSummary(score).forEach(function (text) {
+        buildSummary(score, answers, dimensions).forEach(function (text) {
           var item = document.createElement("li");
           item.className = "summary-item";
           item.textContent = text;
