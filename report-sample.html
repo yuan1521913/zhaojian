@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>照见 · 备考模式诊断报告</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #05070a;
+    color: #e8e6e0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+  }
+  .report {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #0b0d12;
+    min-height: 100vh;
+    padding: 48px 28px 64px;
+  }
+  .cover {
+    border: 1px solid rgba(201, 168, 106, 0.24);
+    border-radius: 8px;
+    padding: 54px 28px 48px;
+    text-align: center;
+    background:
+      linear-gradient(180deg, rgba(201, 168, 106, 0.08), transparent 180px),
+      #141720;
+    margin-bottom: 40px;
+  }
+  .cover .brand {
+    color: #c9a86a;
+    font-family: "Songti SC", "Noto Serif SC", serif;
+    font-size: 44px;
+    letter-spacing: 0;
+  }
+  .cover h1 {
+    margin: 10px 0 18px;
+    font-family: "Songti SC", "Noto Serif SC", serif;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .cover .quote {
+    color: #9a978f;
+    font-size: 15px;
+  }
+  .score-pill {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 8px 16px;
+    border: 1px solid rgba(201, 168, 106, 0.4);
+    border-radius: 999px;
+    color: #c9a86a;
+  }
+  section {
+    margin-top: 40px;
+  }
+  h2 {
+    margin: 0 0 20px;
+    color: #c9a86a;
+    font-family: "Songti SC", "Noto Serif SC", serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .block {
+    border: 1px solid rgba(201, 168, 106, 0.16);
+    border-radius: 8px;
+    background: #141720;
+    padding: 18px 18px 14px;
+    margin-bottom: 14px;
+  }
+  .block-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .block-head span {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(201, 168, 106, 0.34);
+    border-radius: 50%;
+    color: #c9a86a;
+    font-size: 12px;
+  }
+  p { margin: 8px 0; }
+  ul, ol { margin: 10px 0 0; padding-left: 20px; }
+  li { margin-bottom: 8px; }
+  .note {
+    color: #9a978f;
+    font-size: 13px;
+  }
+  .behavior-list li {
+    border: 1px solid rgba(201, 168, 106, 0.16);
+    border-radius: 8px;
+    background: #141720;
+    padding: 16px;
+    list-style: none;
+    margin-left: 0;
+    margin-bottom: 12px;
+  }
+  .behavior-list li strong {
+    display: block;
+    color: #c9a86a;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .plan-item {
+    border: 1px solid rgba(201, 168, 106, 0.16);
+    border-radius: 8px;
+    background: #141720;
+    padding: 14px;
+  }
+  .plan-item span {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #9a978f;
+    font-size: 12px;
+  }
+  .plan-item strong {
+    display: block;
+    color: #c9a86a;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .plan-item p {
+    margin: 0;
+    font-size: 14px;
+  }
+  .countdown-card {
+    border: 1px solid rgba(201, 168, 106, 0.22);
+    border-radius: 8px;
+    background: #141720;
+    padding: 20px;
+  }
+  .countdown-card strong {
+    color: #c9a86a;
+  }
+  .closing {
+    border: 1px solid rgba(201, 168, 106, 0.22);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(201, 168, 106, 0.07), transparent 80%),
+      #141720;
+    padding: 26px 22px;
+  }
+  .closing h2 {
+    margin-bottom: 14px;
+  }
+  .closing blockquote {
+    margin: 0 0 12px;
+    padding: 0;
+    color: #e8e6e0;
+    font-family: "Songti SC", "Noto Serif SC", serif;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+  .closing p {
+    color: #9a978f;
+    font-size: 14px;
+  }
+  @media (max-width: 600px) {
+    .report { padding: 28px 16px 48px; }
+    .cover { padding: 38px 18px 34px; }
+    .plan-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <main class="report">
+    <header class="cover">
+      <div class="brand">照见</div>
+      <h1>备考模式诊断报告</h1>
+      <p class="quote">这次不用再骗自己。看见断点，就是改变的开始。</p>
+      <div class="score-pill">总分 54 分</div>
+    </header>
+
+    
+    <section>
+      <h2>第一部分：五维照见</h2>
+      
+      <section class="block">
+        <div class="block-head">
+          <span>1</span>
+          <h3>有效学习时长 · 45 分</h3>
+        </div>
+        <p>有效学习时长得分 45，说明你已有行动，但动作之间还有断点，效率会被损耗。</p>
+        <ul>
+          <li>你更可能有学习时段，但时段内会被手机和杂事打断。</li><li>你更可能用时长衡量努力，却没有同时核对产出。</li><li>你更可能把浏览资料当成学习的一部分。</li>
+        </ul>
+      </section>
+      <section class="block">
+        <div class="block-head">
+          <span>2</span>
+          <h3>刷题效率 · 60 分</h3>
+        </div>
+        <p>刷题效率得分 60，说明系统正在形成，但稳定性不足，压力下容易断裂。</p>
+        <ul>
+          <li>你更可能已经建立刷题节奏，但复盘仍偶尔滞后。</li><li>你更可能用错题标记代替完整的错题闭环。</li><li>你更可能在某几个模块稳定，但其他模块被忽略。</li>
+        </ul>
+      </section>
+      <section class="block">
+        <div class="block-head">
+          <span>3</span>
+          <h3>目标匹配度 · 72 分</h3>
+        </div>
+        <p>目标匹配度得分 72，说明系统正在形成，但稳定性不足，压力下容易断裂。</p>
+        <ul>
+          <li>你更可能已经确定目标岗位，但对执行路径仍不够具体。</li><li>你更可能清楚差距，却还没有把它拆到每周任务。</li><li>你更可能在目标清晰和行动稳定之间仍有空隙。</li>
+        </ul>
+      </section>
+      <section class="block">
+        <div class="block-head">
+          <span>4</span>
+          <h3>心态稳定性 · 38 分</h3>
+        </div>
+        <p>心态稳定性得分 38，说明这个维度目前以表面动作为主，真实能力没有形成闭环。</p>
+        <ul>
+          <li>你更可能在一次失利后连续几天无法恢复。</li><li>你更可能把「不想学」当成无法控制的情绪状态。</li><li>你更可能通过比较他人结果来确认自己的位置。</li>
+        </ul>
+      </section>
+      <section class="block">
+        <div class="block-head">
+          <span>5</span>
+          <h3>方法论清晰度 · 55 分</h3>
+        </div>
+        <p>方法论清晰度得分 55，说明你已有行动，但动作之间还有断点，效率会被损耗。</p>
+        <ul>
+          <li>你更可能知道薄弱模块，却不知道怎么提分。</li><li>你更可能做了一些真题，但没有形成系统分析。</li><li>你更可能把计划写在脑子里，执行时频繁变动。</li>
+        </ul>
+      </section>
+    </section>
+    
+    <section>
+      <h2>第二部分：备考行为断点</h2>
+      <ol class="behavior-list">
+        
+          <li>
+            <strong>你每天真正坐在书桌前学习的时间（不包括看手机、发呆、刷经验帖）大约是？</strong>
+            <p>你选择了「不到1小时」，但真正进入学习状态的时间可能远小于这个数字。</p>
+          </li>
+          <li>
+            <strong>你每天花在看考公经验帖、上岸分享、学习方法视频上的时间是？</strong>
+            <p>你选择了「2小时以上」，但看经验帖不能替代练习，这部分时间正在稀释有效学习。</p>
+          </li>
+          <li>
+            <strong>你做模拟题时，正确率变化是怎样的？</strong>
+            <p>你选择了「一直很低没怎么变」，但正确率波动或停滞，说明刷题没有转化为稳定能力。</p>
+          </li>
+      </ol>
+    </section>
+    
+    <section>
+      <h2>第三部分：14 天补救方案</h2>
+      <p class="note">针对最弱的两个维度：心态稳定性 38 分、有效学习时长 45 分。每天只执行一个动作。</p>
+      <div class="plan-grid">
+        
+          <div class="plan-item">
+            <span>Day 1</span>
+            <strong>心态稳定性</strong>
+            <p>第 1 天：今晚只写今天的 3 件完成事项，不写明天的焦虑。</p>
+          </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>第四部分：上岸倒计时</h2>
+      <div class="countdown-card">
+        <p>如果保持每天 3 小时有效学习，你还需要 <strong>43 天</strong>达到进面水平。</p>
+        <p>如果每天 5 小时，是 <strong>26 天</strong>。</p>
+        <p class="note">目标小时数 = (80 - 54) × 3 + 50 = 128 小时。这个数字只代表需要补足的有效学习缺口，不代表机械等待天数。</p>
+      </div>
+    </section>
+    
+    <section class="closing">
+      <h2>第五部分：照见结语</h2>
+      <blockquote>你已经在行动，只是部分动作还没有连成闭环。先停止增加任务，把其中一个断点补上。照见之后，才是真正的开始。</blockquote>
+      <p>照见不是为了审判你，是为了让你知道下一步改哪里。看见断点，本身已经是改变的开始。</p>
+    </section>
+    
+    <section class="closing upsell">
+      <h2>报告之后：下一步</h2>
+      <blockquote>你看到了自己的问题。但看到，和改变，是两件事。</blockquote>
+      <p><strong>14 天补救方案 · ¥19.9</strong><br>针对本次最弱维度，每天一个具体动作，14 天后可复测。</p>
+      <p><strong>21 天自渡计划 · ¥99/期</strong><br>社群打卡 + 周复盘 + 同伴监督。</p>
+      <p><strong>1 对 1 深度照见 · ¥299</strong><br>人工解读 + 个人备考陪跑。</p>
+      <p class="note">以上均通过交付微信手动购买，发送消息时备注“14天”“21天”或“1对1”。</p>
+    </section>
+  </main>
+</body>
+</html>

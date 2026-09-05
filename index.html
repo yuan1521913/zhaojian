@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://tazhi-2026-d5g1gnvbvb64fcb96-1468762664.ap-shanghai.app.tcloudbase.com;">
   <meta name="theme-color" content="#0b0d12">
-  <title>照见 · 上岸自测</title>
+  <meta name="description" content="备考行为自测：你是真努力，还是在表演努力？20题免费看总分和五维雷达图。">
+  <title>照见 · 备考自测：你是真努力，还是在表演努力？</title>
   <style>
     :root {
       --bg: #0b0d12;
@@ -1091,14 +1092,14 @@
       <header class="brand-head">
         <div class="seal" aria-hidden="true">照</div>
         <div>
-          <p class="eyebrow">上岸自测</p>
+          <p class="eyebrow">备考行为自测</p>
           <h1>照见</h1>
         </div>
       </header>
 
       <p class="slogan">
-        知人者智，自知者明。先照见，再上岸。
-        <em>把模糊的状态，映成可辨的方向。</em>
+        你是真努力，还是在表演努力？
+        <em>20 题照见你的备考行为断点，免费看总分和雷达图。</em>
       </p>
 
       <div class="preview-head">
@@ -1280,6 +1281,8 @@
           </button>
         </div>
         <p class="paywall-note">¥9.9 完整报告 · 按你的答案生成 · 5-15 分钟交付 · 24小时内不满意可退</p>
+        <p class="privacy-note" style="margin-top:8px;font-size:14px;color:#a3a097;">交付只需要付款截图和测试数据，不索要姓名、手机号、地址、身份证。</p>
+        <a id="sampleReportLink" class="sample-report-link" href="report-sample.html" target="_blank" rel="noopener" style="display:inline-block;margin-top:14px;color:#c9a86a;text-decoration:underline;">先看一份脱敏报告样例</a>
         <button id="retryBtn" class="ghost-btn" type="button">重新测试</button>
       </div>
     </section>
@@ -1301,6 +1304,10 @@
       </div>
       <div class="pay-qr-box">
         <img id="payQr" src="assets/wechat-pay.jpg" alt="微信收款码">
+        <div id="deliveryInfo" hidden style="margin-top:10px;font-size:16px;line-height:1.55;color:#e8e6e0;">
+          <strong id="deliveryName"></strong>
+          <span style="display:block;font-size:13px;color:#9a978f;">扫码添加，备注「照见报告」</span>
+        </div>
       </div>
       <ul class="pay-steps">
         <li id="payStep1">1. 扫码支付 9.9 元。</li>
@@ -1309,6 +1316,8 @@
         <li>4. 报告将在 5-15 分钟内手动发送给你。</li>
         <li>5. 报告按你的答案生成；如果觉得是套话，24小时内可申请退款。</li>
       </ul>
+      <p style="margin:10px 0;font-size:13px;line-height:1.65;color:#9a978f;">交付只需要付款截图和测试数据，不索要姓名、手机号、地址、身份证。退款方式：微信联系发“退款+付款截图”，24小时内确认后全额退。</p>
+      <a href="report-sample.html" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:16px;color:#c9a86a;text-decoration:underline;">先看一份脱敏报告样例</a>
       <button id="payCopyDataBtn" class="primary-btn" type="button">复制测试数据</button>
     </div>
   </div>
@@ -1324,6 +1333,7 @@
       var DIMENSION_SHORT = ["有效学习", "刷题效率", "目标匹配", "心态稳定", "方法论"];
       var STATS_ENDPOINT = "https://tazhi-2026-d5g1gnvbvb64fcb96-1468762664.ap-shanghai.app.tcloudbase.com/zhaojian-api";
       var PAYMENT_CONTACT = "微信：xxxxx";
+      var DELIVERY_WECHAT_NAME = "若汐";
       var PAY_TIERS = {
         report: { label: "完整诊断报告", price: "¥9.9", amount: "9.9", desc: "五维逐一拆解 + 3 个假努力行为" },
         plan14: { label: "14 天补救方案", price: "¥19.9", amount: "19.9", desc: "14 天行动清单 + 上岸倒计时" },
@@ -1569,6 +1579,8 @@
       var payModal = document.getElementById("payModal");
       var payCloseBtn = document.getElementById("payCloseBtn");
       var payQr = document.getElementById("payQr");
+      var deliveryInfo = document.getElementById("deliveryInfo");
+      var deliveryName = document.getElementById("deliveryName");
       var payTabs = document.querySelectorAll(".pay-tab");
       var payCopyDataBtn = document.getElementById("payCopyDataBtn");
       var payTierTitle = document.getElementById("payTierTitle");
@@ -2122,12 +2134,16 @@
         if (tab.dataset.pay === "alipay") {
           payQr.src = "assets/alipay-pay.jpg";
           payQr.alt = "支付宝收款码";
+          deliveryInfo.hidden = true;
         } else if (tab.dataset.pay === "contact") {
           payQr.src = "assets/wechat-contact.jpg";
           payQr.alt = "微信联系二维码";
+          deliveryInfo.hidden = false;
+          deliveryName.textContent = "交付微信：" + DELIVERY_WECHAT_NAME;
         } else {
           payQr.src = "assets/wechat-pay.jpg";
           payQr.alt = "微信收款码";
+          deliveryInfo.hidden = true;
         }
       }
 
